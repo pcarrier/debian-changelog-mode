@@ -886,32 +886,8 @@ If file is empty, create initial entry."
 (defun debian-changelog-date-string ()
   "Return RFC-822 format date string.
 Use UTC if `debian-changelog-date-utc-flag' is non-nil."
-  (let* ((dp "date")
-	 (cp (point))
-	 (ret
-	  (let ((process-environment process-environment)
-		(tz (dolist (item process-environment)
-		      (when (and (stringp item)
-				 (string-match "^TZ=" item))
-			(return item)))))
-	    (when debian-changelog-date-utc-flag
-	      (setq process-environment
-		    (delete tz process-environment))
-	      (push "TZ=UTC" process-environment))
-	    (call-process "date" nil t nil "-R")))
-	 (np (point))
-	 (out nil))
-    (cond ((not (or (eq ret nil) (eq ret 0)))
-	   (setq out (buffer-substring-no-properties cp np))
-	   (delete-region cp np)
-	   (error (concat "error from " dp ": " out)))
-	  (t
-	   (backward-char)
-	   (or (looking-at "\n")
-	       (error (concat "error from " dp ": expected newline after date string")))
-	   (setq out (buffer-substring-no-properties cp (- np 1)))
-	   (delete-region cp np)
-	   out))))
+  (format-time-string "%a, %d %b %Y %T %z" nil
+                      debian-changelog-date-utc-flag))
 
 ;;
 ;; interactive functions to finalize entry
