@@ -888,8 +888,9 @@ If file is empty, create initial entry."
 (defun debian-changelog-date-string ()
   "Return RFC-822 format date string.
 Use UTC if `debian-changelog-date-utc-flag' is non-nil."
-  (format-time-string "%a, %d %b %Y %T %z" nil
-                      debian-changelog-date-utc-flag))
+  (let ((system-time-locale "C"))
+    (format-time-string "%a, %d %b %Y %T %z" nil
+                        debian-changelog-date-utc-flag)))
 
 ;;
 ;; interactive functions to finalize entry
