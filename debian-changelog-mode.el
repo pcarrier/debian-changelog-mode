@@ -1,6 +1,6 @@
 ;;; debian-changelog-mode.el --- major mode for Debian changelog files.
 
-;;; Version: 1.95
+;;; Version: 1.96
 
 ;; Copyright (C) 1996 Ian Jackson
 ;; Copyright (C) 1997 Klee Dienes
